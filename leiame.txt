@@ -1,0 +1,20 @@
+
+#Criar arquivo liquibase.properties em: ...\database-changes\src\main\resources
+
+#########################  Template do arquivo. ####################################
+
+changeLogFile=db/changelog/changelog-master.xml
+
+### PRODUÇÃO #####
+url=jdbc:sqlserver://[SERVIDOR]:1433;database=connectgas;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+username=ntssqladmin
+password=[SENHA]
+
+spring.liquibase.change-log=db/changelog/changelog-master.xml
+
+#################################################################################### 
+
+Comandos:
+1. git pull origin master
+2. mvn clean install -DskipTests
+3. mvn liquibase:update

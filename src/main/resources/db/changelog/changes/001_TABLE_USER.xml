@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+		logicalFilePath="db/changelog/changelog-master.xml"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="DDL#createTableUsuarioAndPerfil" author="@leonardo.pontes" context="Spring_00">
+	
+		<createTable tableName="perfil">
+			<column name="perf_cd_id" autoIncrement="true" type="integer">
+				<constraints primaryKey="true" nullable="false" primaryKeyName="pk_perf"/>
+			</column>
+			<column name="perf_tx_nome" type="varchar(90)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="perf_tx_descricao" type="varchar(255)">
+				<constraints nullable="true"/>
+			</column>
+			<column name="perf_tx_codigo" type="varchar(90)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="perf_in_ativo" type="bit">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		
+		<createTable tableName="usuario">
+			<column name="usua_cd_id" autoIncrement="true" type="integer">
+				<constraints primaryKey="true" nullable="false" primaryKeyName="pk_usua"/>
+			</column>
+			<column name="perf_cd_id" type="integer">
+				<constraints nullable="false" primaryKeyName="fk_usuario_perfil"/>
+			</column>
+			<column name="usua_tx_login" type="varchar(90)">
+				<constraints nullable="false" unique="true" uniqueConstraintName="uk_login"/>
+			</column>
+			<column name="usua_tx_email" type="varchar(90)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="usua_tx_nome" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="usua_tx_senha" type="varchar(90)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="usua_in_ativo" type="bit">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<sql>
+			<![CDATA[
+				grant select, insert, update, delete on perfil to app_doctrina;
+				grant select, insert, update, delete on usuario to app_doctrina;
+			]]>
+		</sql>
+	</changeSet>
+	<changeSet id="DML#insertPerfis" author="@leonardo.pontes" context="Spring_00">
+		<sql>
+			<![CDATA[
+				insert into perfil(perf_tx_nome, perf_tx_descricao, perf_tx_codigo, perf_in_ativo) values('Administrador', 'Perfil utilizado pelo backoffice', 'ADM', 1);
+				insert into perfil(perf_tx_nome, perf_tx_descricao, perf_tx_codigo, perf_in_ativo) values('Aluno', 'Perfil de Aluno', 'ALUNO', 1);
+				insert into perfil(perf_tx_nome, perf_tx_descricao, perf_tx_codigo, perf_in_ativo) values('Educador', 'Perfil de Educador', 'EDUCADOR', 1);
+			]]>
+		</sql>
+	</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,24 @@
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+trigger: 
+  - master
+
+
+pool:
+  name: Azure Pipelines PRD
+  vmImage: ubuntu-latest
+
+resources:
+  repositories:
+    - repository: devopsTemplates
+      type: git
+      name: ConnectGas 3.0/devops
+
+variables:
+- group: PIPELINE  
+
+stages:
+- template: templates/pipelines/liquibase.yml@devopsTemplates

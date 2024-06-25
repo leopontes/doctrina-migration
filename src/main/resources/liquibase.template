@@ -1,0 +1,7 @@
+changeLogFile=db/changelog/changelog-master.xml
+
+url=${CONNECTGAS_DATASOURCE_URL}
+username=app_connectgas
+password=${CONNECTGAS_DATASOURCE_PASSWORD}
+
+spring.liquibase.change-log=db/changelog/changelog-master.xml
