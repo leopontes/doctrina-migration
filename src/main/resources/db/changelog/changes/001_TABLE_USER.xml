@@ -66,4 +66,12 @@
 			]]>
 		</sql>
 	</changeSet>
+	
+	<changeSet id="DDL#alterTableUsuarioAndPerfil" author="@leonardo.pontes" context="Spring_00">
+		<addColumn tableName="usuario">
+			<column name="usua_in_validado" type="bit">
+				<constraints nullable="false"/>
+			</column>
+		</addColumn>
+	</changeSet>
 </databaseChangeLog>

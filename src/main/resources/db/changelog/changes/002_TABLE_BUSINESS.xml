@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+		logicalFilePath="db/changelog/changelog-master.xml"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="DDL#createTableBusiness" author="@leonardo.pontes" context="Spring_00">
+	
+		<createTable tableName="grupo">
+			<column name="grup_cd_id" autoIncrement="true" type="integer">
+				<constraints primaryKey="true" nullable="false" primaryKeyName="pk_grup"/>
+			</column>
+			<column name="grup_tx_nome" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="grup_dt_criacao" type="date">
+				<constraints nullable="true"/>
+			</column>
+		</createTable>
+		
+		<createTable tableName="disciplina">
+			<column name="disc_cd_id" autoIncrement="true" type="integer">
+				<constraints primaryKey="true" nullable="false" primaryKeyName="pk_disc"/>
+			</column>
+			<column name="disc_tx_nome" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		
+		<createTable tableName="topico">
+			<column name="topi_cd_id" autoIncrement="true" type="integer">
+				<constraints primaryKey="true" nullable="false" primaryKeyName="pk_topi"/>
+			</column>
+			<column name="disc_cd_id" type="integer">
+				<constraints nullable="false" foreignKeyName="fk_disciplina_topico" references="disciplina(disc_cd_id)"/>
+			</column>
+			<column name="topi_tx_nome" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		
+		<createTable tableName="finalidade">
+			<column name="fina_cd_id" autoIncrement="true" type="integer">
+				<constraints primaryKey="true" nullable="false" primaryKeyName="pk_fina"/>
+			</column>
+			<column name="grup_cd_id" type="integer">
+				<constraints nullable="false" foreignKeyName="fk_grupo_finalidade" references="grupo(grup_cd_id)"/>
+			</column>
+			<column name="fina_tx_nome" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="fina_dt_inicio" type="date">
+				<constraints nullable="true"/>
+			</column>
+			<column name="fina_dt_fim" type="date">
+				<constraints nullable="true"/>
+			</column>
+		</createTable>
+		
+		<createTable tableName="usuario_finalidade">
+			<column name="usfi_cd_id" autoIncrement="true" type="integer">
+				<constraints primaryKey="true" nullable="false" primaryKeyName="pk_usfi"/>
+			</column>
+			<column name="fina_cd_id" type="integer">
+				<constraints nullable="false" foreignKeyName="fk_finalidade_usuario" references="finalidade(fina_cd_id)"/>
+			</column>
+			<column name="usua_cd_id" type="integer">
+				<constraints nullable="false" foreignKeyName="fk_usuario_finalidade"  references="usuario(usua_cd_id)"/>
+			</column>
+			<column name="usfi_in_adm" type="bit">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		
+		<createTable tableName="finalidade_topico">
+			<column name="fito_cd_id" autoIncrement="true" type="integer">
+				<constraints primaryKey="true" nullable="false" primaryKeyName="pk_fito"/>
+			</column>
+			<column name="fina_cd_id" type="integer">
+				<constraints nullable="false" foreignKeyName="fk_finalidade_topico" references="finalidade(fina_cd_id)"/>
+			</column>
+			<column name="topi_cd_id" type="integer">
+				<constraints nullable="false" foreignKeyName="fk_topico_finalidade"  references="topico(topi_cd_id)"/>
+			</column>
+			<column name="topi_tx_conteudo" type="varchar(max)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="topi_tx_link" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		
+		<createTable tableName="finalidade_topico_complemento">
+			<column name="fitc_cd_id" autoIncrement="true" type="integer">
+				<constraints primaryKey="true" nullable="false" primaryKeyName="pk_fitc"/>
+			</column>
+			<column name="fito_cd_id" type="integer">
+				<constraints nullable="false" foreignKeyName="fk_finalidade_topico_complemento" references="finalidade_topico(fito_cd_id)"/>
+			</column>
+			<column name="fitc_tx_nome" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="fitc_tx_descricao" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="fitc_tx_link" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		
+		<sql>
+			<![CDATA[
+				grant select, insert, update, delete on grupo to app_doctrina;
+				grant select, insert, update, delete on disciplina to app_doctrina;
+				grant select, insert, update, delete on topico to app_doctrina;
+				grant select, insert, update, delete on finalidade to app_doctrina;
+				grant select, insert, update, delete on usuario_finalidade to app_doctrina;
+				grant select, insert, update, delete on finalidade_topico to app_doctrina;
+				grant select, insert, update, delete on finalidade_topico_complemento to app_doctrina;
+			]]>
+		</sql>
+	</changeSet>
+	
+</databaseChangeLog>
